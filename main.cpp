@@ -2,9 +2,15 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-//#include "Board.h"
+#include <unordered_map>
+#include "Board.h"
+#include "Tile.h"
+#include "TextureManager.h"
 
+using std::unordered_map;
+using std::string;
 using namespace std;
+
 
 void setText(sf::Text &text, float x, float y);
 vector<int> readConfigFile(const string& fileName);
@@ -29,7 +35,7 @@ int main()
     setText(nameQuestion, (float) inputs[0] * 32 / 2, (float) inputs[1] * 32 / 2 - 75);
     nameQuestion.scale(0.8,0.8);
     setText(name, (float) inputs[0] * 32 / 2, (float) inputs[1] * 32 / 2 - 45);
-    name.scale(3.0,3.0);
+    name.scale(2.0,2.0);
 
 
 
@@ -89,9 +95,7 @@ int main()
         welcomeWindow.display();
     }
 
-    // create map of textures
-    map<string, sf::Texture> textures;
-    loadTextures(textures);
+
     //Board gameBoard(inputs[0], inputs[1], inputs[2], textures);
 
     // GAME ACTIVE STATE
@@ -161,44 +165,3 @@ void setText(sf::Text &text, float x, float y){
     text.setPosition(sf::Vector2f(x, y));
 }
 
-void loadTextures(map<string, sf::Texture>& m){
-    sf::Texture temp;
-    temp.loadFromFile("files/images/debug.png");
-    m.emplace("debug", temp);
-    temp.loadFromFile("files/images/digits.png");
-    m.emplace("digits", temp);
-    temp.loadFromFile("files/images/face_happy.png");
-    m.emplace("face_happy", temp);
-    temp.loadFromFile("files/images/face_lose.png");
-    m.emplace("face_lose", temp);
-    temp.loadFromFile("files/images/flag.png");
-    m.emplace("flag", temp);
-    temp.loadFromFile("files/images/leaderboard.png");
-    m.emplace("leaderboard", temp);
-    temp.loadFromFile("files/images/mine.png");
-    m.emplace("mine", temp);
-    temp.loadFromFile("files/images/number_1.png");
-    m.emplace("number_1", temp);
-    temp.loadFromFile("files/images/number_2.png");
-    m.emplace("number_2", temp);
-    temp.loadFromFile("files/images/number_3.png");
-    m.emplace("number_3", temp);
-    temp.loadFromFile("files/images/number_4.png");
-    m.emplace("number_4", temp);
-    temp.loadFromFile("files/images/number_5.png");
-    m.emplace("number_5", temp);
-    temp.loadFromFile("files/images/number_6.png");
-    m.emplace("number_6", temp);
-    temp.loadFromFile("files/images/number_7.png");
-    m.emplace("number_7", temp);
-    temp.loadFromFile("files/images/number_8.png");
-    m.emplace("number_8", temp);
-    temp.loadFromFile("files/images/pause.png");
-    m.emplace("pause", temp);
-    temp.loadFromFile("files/images/play.png");
-    m.emplace("play", temp);
-    temp.loadFromFile("files/images/tile_hidden.png");
-    m.emplace("tile_hidden", temp);
-    temp.loadFromFile("files/images/tile_revealed.png");
-    m.emplace("tile_revealed", temp);
-}

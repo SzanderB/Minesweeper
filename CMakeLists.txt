@@ -5,7 +5,11 @@ project(Project3)
 
 add_executable(Project3 main.cpp
         Board.cpp
-        Board.h)
+        Board.h
+        Tile.cpp
+        Tile.h
+        TextureManager.cpp
+        TextureManager.h)
 
 set(SFML_STATIC_LIBRARIES TRUE)
 set(SFML_DIR C:/SFML/lib/cmake/SFML)
