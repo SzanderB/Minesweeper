@@ -19,6 +19,7 @@ private:
 
     int row;
     int column;
+    // the order will be top, TR, right, BR, bottom, BL, left, TL
     vector<Tile*> surrounding;
     int surroundingMines;
 
@@ -29,5 +30,5 @@ public:
     void cover();
     void reveal();
     void calculateAdjMines();
-    void setAdjacent(vector<vector<Tile*>>& list);
+    void setAdjacent(vector<vector<Tile*>>& list, int totRow, int totCol);
 };
