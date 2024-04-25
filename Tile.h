@@ -26,6 +26,10 @@ private:
 public:
     Tile(int row, int col);
 
+    bool hasBomb();
+    void setMine();
+    sf::Sprite& getSprite();
+
     void flag();
     void cover();
     void reveal();

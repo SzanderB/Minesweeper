@@ -103,7 +103,8 @@ int main()
     // create a mouse to keep track of where it is clicking
     sf::Mouse mouse;
 
-
+    Board board(inputs[0],inputs[1],inputs[2]);
+    cout << "Done" << endl;
     while(gameWindow.isOpen()){
         // Process events
         sf::Event event;
@@ -119,6 +120,7 @@ int main()
         // Clear screen
         gameWindow.clear(sf::Color::White);
 
+        board.display(gameWindow);
 
         // Update the welcomeWindow
         gameWindow.display();

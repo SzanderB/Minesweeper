@@ -13,34 +13,33 @@ using namespace std;
 
 class Board{
 private:
+    int numRows;
+    int numCols;
+
     int height;
     int width;
     vector<vector<Tile*>> tiles;
-    map<string, sf::Texture> textures;
 
     int numMines;
     int currMines;
 
+    bool gameOver;
 
 public:
-    sf::RenderWindow window;        //maybe include this IDK yet
-
 
     Board();
     Board(int h,int w, int mines);
-    //Copy Constructor
-    Board(Board& b);
 
     int getHeight() const;
     int getWidth() const;
 
-    // copy assignment operator
-    Board& operator=(const Board& b);
+
+    void setupBoard();
     //Destructor
     ~Board();
 
     //****************** Functionalities *************************
 
-    void display();
+    void display(sf::RenderWindow& window);
 };
 

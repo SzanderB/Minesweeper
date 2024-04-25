@@ -7,6 +7,9 @@
 #include "TextureManager.h"
 using namespace std;
 
+
+unordered_map<string, sf::Texture> TextureManager::textures;
+
 // need a load function to get all the textures into the map
 void TextureManager::LoadTexture(const string& textureName){
     // start of path is the same for everything

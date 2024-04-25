@@ -6,7 +6,7 @@
 
 Tile::Tile(int row, int col){
     image.setTexture(TextureManager::GetTexture("tile_hidden"));
-    image.setPosition(col * 32,row * 32);
+    image.setPosition((float)col * 32,(float)row * 32);
     flagged = false;
     hasMine = false;
     revealed = false;
@@ -14,6 +14,18 @@ Tile::Tile(int row, int col){
     this->column = col;
     surroundingMines = 0;
 }
+
+bool Tile::hasBomb(){
+    return hasMine;
+}
+
+void Tile::setMine(){
+    hasMine = true;
+}
+sf::Sprite& Tile::getSprite(){
+    return image;
+}
+
 
 void Tile::flag(){
     flagged = !flagged;

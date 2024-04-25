@@ -9,7 +9,9 @@ add_executable(Project3 main.cpp
         Tile.cpp
         Tile.h
         TextureManager.cpp
-        TextureManager.h)
+        TextureManager.h
+        Random.cpp
+        Random.h)
 
 set(SFML_STATIC_LIBRARIES TRUE)
 set(SFML_DIR C:/SFML/lib/cmake/SFML)
