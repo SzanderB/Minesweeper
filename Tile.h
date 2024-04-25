@@ -13,7 +13,7 @@ private:
     sf::Sprite image;
     sf::Texture texture;
 
-    bool flagged;
+    volatile bool flagged;
     bool hasMine;
     bool revealed;
 
@@ -26,13 +26,15 @@ private:
 public:
     Tile(int row, int col);
 
-    bool hasBomb();
+    bool hasBomb() const;
     void setMine();
     sf::Sprite& getSprite();
 
     void flag();
     void cover();
-    void reveal();
+    bool reveal(int x, int y);
     void calculateAdjMines();
     void setAdjacent(vector<vector<Tile*>>& list, int totRow, int totCol);
+
+    bool clearAdjacentEmptyTiles(int x, int y);
 };

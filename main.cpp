@@ -49,6 +49,7 @@ int main()
             // Close welcomeWindow: exit
             if (event.type == sf::Event::Closed){
                 welcomeWindow.close();
+                return 0;
             }
             if(event.type == sf::Event::TextEntered){
                 if (event.text.unicode < 128) {
@@ -101,10 +102,8 @@ int main()
     // GAME ACTIVE STATE
     sf::RenderWindow gameWindow(sf::VideoMode(inputs[0] * 32, inputs[1] * 32 + 100), "Game Window");
     // create a mouse to keep track of where it is clicking
-    sf::Mouse mouse;
-
     Board board(inputs[0],inputs[1],inputs[2]);
-    cout << "Done" << endl;
+
     while(gameWindow.isOpen()){
         // Process events
         sf::Event event;
@@ -112,6 +111,8 @@ int main()
             // Close welcomeWindow: exit
             if (event.type == sf::Event::Closed) {
                 gameWindow.close();
+            }else if(event.type == sf::Event::MouseButtonPressed){
+                board.mouseClicked(event.mouseButton.button, event.mouseButton.x, event.mouseButton.y);
             }
         }
 

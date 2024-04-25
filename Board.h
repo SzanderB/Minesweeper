@@ -35,11 +35,9 @@ public:
 
 
     void setupBoard();
-    //Destructor
-    ~Board();
 
-    //****************** Functionalities *************************
+    void mouseClicked(sf::Mouse::Button button, int x, int y);
 
-    void display(sf::RenderWindow& window);
+    void display(sf::RenderWindow& window) const;
 };
 

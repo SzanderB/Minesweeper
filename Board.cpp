@@ -40,9 +40,7 @@ Board::Board(int h,int w, int mines){
     while(currMines < numMines){
         // get a random x/y
         int x = rand() % numRows;
-        cout  << x << ", ";
         int y = rand() % numCols;
-        cout  << y << endl;
 
         // check if there is a bomb there
         if(tiles[x][y]->hasBomb()){         //if it does, skip to the next iteration
@@ -56,7 +54,6 @@ Board::Board(int h,int w, int mines){
     for(int x = 0; x < numRows; x++){
         for(int y = 0; y < numCols; y++){
             tiles[x][y]->setAdjacent(tiles, numRows, numCols);
-            cout << "Done" << endl;
             tiles[x][y]->calculateAdjMines();
         }
     }
@@ -68,7 +65,6 @@ int Board::getHeight() const{
 int Board::getWidth() const{
     return width;
 }
-
 
 void Board::setupBoard(){
     for(int x = 0; x < numRows; x++){
@@ -103,20 +99,30 @@ void Board::setupBoard(){
     }
 }
 
-//Destructor
-Board::~Board(){
-    for(int x = 0; x < numRows; x++){
-        for(int y = 0; y < numCols; y++){
-            delete tiles[x][y];
-        }
-    }
-}
-
-
-void Board::display(sf::RenderWindow& window){
+void Board::display(sf::RenderWindow& window) const{
     for(int x = 0; x < numRows; x++){
         for(int y = 0; y < numCols; y++){
             window.draw(tiles[x][y]->getSprite());
         }
+    }
+}
+void Board::mouseClicked(sf::Mouse::Button button, int x, int y){
+    // decide whether its on the board or not
+    if(y > height-100){
+        // bottom of the board
+
+    }else{
+        // ON THE BOARD
+        int indexX = y/32;
+        int indexY = x/32;
+        // check left or right click
+        if(button == sf::Mouse::Button::Left){
+            if(tiles[indexX][indexY]->reveal(indexX, indexY)){
+                gameOver = true;
+            }
+        }else if(button == sf::Mouse::Button::Right){
+            tiles[indexX][indexY]->flag();
+        }
+
     }
 }
