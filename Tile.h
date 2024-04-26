@@ -11,6 +11,8 @@ using namespace std;
 class Tile{
 private:
     sf::Sprite image;
+    sf::Sprite background;
+
     sf::Texture texture;
 
     volatile bool flagged;
@@ -29,12 +31,15 @@ public:
     bool hasBomb() const;
     void setMine();
     sf::Sprite& getSprite();
+    sf::Sprite& getBackground();
+    vector<Tile*>& getSurrounding();
+    int getX();
+    int getY();
 
     void flag();
     void cover();
-    bool reveal(int x, int y);
+    int reveal();
     void calculateAdjMines();
     void setAdjacent(vector<vector<Tile*>>& list, int totRow, int totCol);
 
-    bool clearAdjacentEmptyTiles(int x, int y);
 };

@@ -23,10 +23,15 @@ private:
     int numMines;
     int currMines;
 
-    bool gameOver;
-
+    sf::Sprite faceButton;
+    sf::Sprite counter;
+    sf::Sprite debugButton;
+    sf::Sprite pauseButton;
+    sf::Sprite leaderboardButton;
+    sf::Sprite timer;
+    
 public:
-
+    bool gameOver;
     Board();
     Board(int h,int w, int mines);
 
@@ -37,6 +42,7 @@ public:
     void setupBoard();
 
     void mouseClicked(sf::Mouse::Button button, int x, int y);
+    bool clearAdjacentEmptyTiles(int x, int y);
 
     void display(sf::RenderWindow& window) const;
 };

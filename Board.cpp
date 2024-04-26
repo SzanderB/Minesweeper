@@ -33,7 +33,6 @@ Board::Board(int h,int w, int mines){
         for(int y = 0; y < numCols; y++){
             Tile *temp = new Tile(x,y);
             tiles[x].push_back(temp);
-
         }
     }
 
@@ -102,6 +101,7 @@ void Board::setupBoard(){
 void Board::display(sf::RenderWindow& window) const{
     for(int x = 0; x < numRows; x++){
         for(int y = 0; y < numCols; y++){
+            window.draw(tiles[x][y]->getBackground());
             window.draw(tiles[x][y]->getSprite());
         }
     }
@@ -111,18 +111,30 @@ void Board::mouseClicked(sf::Mouse::Button button, int x, int y){
     if(y > height-100){
         // bottom of the board
 
-    }else{
+    }else if(!gameOver){
         // ON THE BOARD
         int indexX = y/32;
         int indexY = x/32;
         // check left or right click
         if(button == sf::Mouse::Button::Left){
-            if(tiles[indexX][indexY]->reveal(indexX, indexY)){
+            int temp = tiles[indexX][indexY]->reveal();
+            if(temp == 0){
                 gameOver = true;
+            }else if(temp == 2) {
+                clearAdjacentEmptyTiles(indexX, indexY);
             }
         }else if(button == sf::Mouse::Button::Right){
             tiles[indexX][indexY]->flag();
         }
 
+    }
+}
+bool Board::clearAdjacentEmptyTiles(int x, int y){
+    vector<Tile*> temp = tiles[x][y]->getSurrounding();
+
+    for(int i = 0; i < temp.size(); i++) {
+        if(temp[i]->reveal() == 2){
+            clearAdjacentEmptyTiles(temp[i]->getX(), temp[i]->getY());
+        }
     }
 }

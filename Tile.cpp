@@ -7,6 +7,8 @@
 Tile::Tile(int row, int col){
     image.setTexture(TextureManager::GetTexture("tile_hidden"));
     image.setPosition((float)col * 32,(float)row * 32);
+    background.setTexture(TextureManager::GetTexture("tile_revealed"));
+    background.setPosition((float)col * 32,(float)row * 32);
     flagged = false;
     hasMine = false;
     revealed = false;
@@ -25,9 +27,23 @@ void Tile::setMine(){
 sf::Sprite& Tile::getSprite(){
     return image;
 }
-
+sf::Sprite& Tile::getBackground(){
+    return background;
+}
+vector<Tile*>& Tile::getSurrounding(){
+    return surrounding;
+}
+int Tile::getX(){
+    return row;
+}
+int Tile::getY(){
+    return column;
+}
 
 void Tile::flag(){
+    if(revealed){
+        return;
+    }
     flagged = !flagged;
     if(flagged) {
         image.setTexture(TextureManager::GetTexture("flag"));
@@ -35,20 +51,24 @@ void Tile::flag(){
         image.setTexture(TextureManager::GetTexture("tile_hidden"));
     }
 }
-bool Tile::reveal(int x, int y){
+int Tile::reveal(){
+    if(flagged || revealed){
+        return 1;
+    }
     if(hasMine){
         image.setTexture(TextureManager::GetTexture("mine"));
-        return true;
+        return 0;
     }else{
         if(surroundingMines != 0) {
             string temp = "number_" + to_string(surroundingMines);
             image.setTexture(TextureManager::GetTexture(temp));
+            revealed = true;
+            return 1;
         }else{
             image.setTexture(TextureManager::GetTexture("tile_revealed"));
-            // need to check the top, right, left, bottom for empty tiles as well
-
+            revealed = true;
+            return 2;
         }
-        return false;
     }
 }
 void Tile::cover(){
@@ -116,12 +136,4 @@ void Tile::setAdjacent(vector<vector<Tile*>>& list, int totRow, int totCol) {
         surrounding.push_back(list[row-1][column-1]);   //TL
     }
 }
-bool Tile::clearAdjacentEmptyTiles(int x, int y){
-    //check top
-    
-    //check right
 
-    // check left
-
-    // check bottom
-}
