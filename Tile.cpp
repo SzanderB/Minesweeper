@@ -39,16 +39,22 @@ int Tile::getX(){
 int Tile::getY(){
     return column;
 }
+bool Tile::isRevealed(){
+    return revealed;
+}
 
-void Tile::flag(){
+
+int Tile::flag(){
     if(revealed){
-        return;
+        return 2;
     }
     flagged = !flagged;
     if(flagged) {
         image.setTexture(TextureManager::GetTexture("flag"));
+        return 0;
     } else{
         image.setTexture(TextureManager::GetTexture("tile_hidden"));
+        return 1;
     }
 }
 int Tile::reveal(){

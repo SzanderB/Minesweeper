@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <fstream>
+#include <chrono>
 #include <vector>
 #include <unordered_map>
 #include "Board.h"
@@ -25,17 +26,22 @@ int main()
         return EXIT_FAILURE;
     }
     // create the three spaces that text will be output to the screen
-    sf::Text title("WELCOME TO MINESWEEPER!", font, 20);
-    sf::Text nameQuestion("Please enter your name:", font, 23);
-    sf::Text name("|", font, 11);
+    sf::Text title("WELCOME TO MINESWEEPER!", font, 24);
+    sf::Text nameQuestion("Please enter your name:", font, 20);
+    sf::Text name("|", font, 18);
     vector<char> nameChars;
     nameChars.push_back('|');
     setText(title, (float) inputs[0] * 32 / 2, (float) inputs[1] * 32 / 2 - 150);
-    title.scale(1.5, 1.5);
+
     setText(nameQuestion, (float) inputs[0] * 32 / 2, (float) inputs[1] * 32 / 2 - 75);
-    nameQuestion.scale(0.8,0.8);
+
     setText(name, (float) inputs[0] * 32 / 2, (float) inputs[1] * 32 / 2 - 45);
-    name.scale(2.0,2.0);
+
+    title.setStyle(sf::Text::Bold | sf::Text::Underlined);
+    nameQuestion.setStyle(sf::Text::Bold);
+    name.setStyle(sf::Text::Bold);
+
+    name.setFillColor(sf::Color::Yellow);
 
 
 
@@ -97,13 +103,15 @@ int main()
     }
 
 
-    //Board gameBoard(inputs[0], inputs[1], inputs[2], textures);
+    string temp(nameChars.begin(), nameChars.end()-1);
 
     // GAME ACTIVE STATE
     sf::RenderWindow gameWindow(sf::VideoMode(inputs[0] * 32, inputs[1] * 32 + 100), "Game Window");
     // create a mouse to keep track of where it is clicking
-    Board board(inputs[0],inputs[1],inputs[2]);
-
+    Board board(inputs[0],inputs[1],inputs[2], temp);
+    auto now = chrono::high_resolution_clock::now();
+    auto secondsInterval = chrono::duration_cast<chrono::seconds>(now-board.t);
+    int i= 0;
     while(gameWindow.isOpen()){
         // Process events
         sf::Event event;
@@ -113,9 +121,29 @@ int main()
                 gameWindow.close();
             }else if(event.type == sf::Event::MouseButtonPressed){
                 board.mouseClicked(event.mouseButton.button, event.mouseButton.x, event.mouseButton.y);
+                if(board.checkWin()){
+                    board.win();
+                }
             }
         }
+        // timer section
 
+        if(!board.isPaused() && !board.gameOver) {
+            now = chrono::high_resolution_clock::now();
+            if (i == 1) {
+                board.offset += chrono::duration_cast<chrono::seconds>(now-board.pauseStart).count();
+            } else {
+                secondsInterval = chrono::duration_cast<chrono::seconds>(now - board.t);
+                board.seconds = secondsInterval.count() - board.offset;
+            }
+            board.updateTimer(board.seconds);
+            i = 0;
+        }else{
+            if(i ==0) {
+                board.pauseStart = chrono::high_resolution_clock::now();
+                i++;
+            }
+        }
 
         // Draw everything
         // Clear screen

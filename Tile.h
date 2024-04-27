@@ -33,10 +33,12 @@ public:
     sf::Sprite& getSprite();
     sf::Sprite& getBackground();
     vector<Tile*>& getSurrounding();
+    bool isRevealed();
+
     int getX();
     int getY();
 
-    void flag();
+    int flag();
     void cover();
     int reveal();
     void calculateAdjMines();
